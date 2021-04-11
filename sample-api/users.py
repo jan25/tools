@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import json
 
 @dataclass
 class _User:
@@ -19,16 +20,41 @@ _data = [
 ]
 
 def get_users():
-    pass
+    return json.dumps(_data)
 
 def get_user(user_id):
-    pass
+    for user in _data:
+        if user.id_ == user_id:
+            return json.dumps(user)
 
 def update_user(user_id, json_data):
-    pass
+    for i, user in enumerate(_data):
+        if user.id_ == user_id:
+            data[i] = old_user.__dict__.update(json_data)
+            return True
+    return False
+
+def _next_id():
+    return 1 + max(u.id_ for u in data)
 
 def create_user(json_data):
-    pass
+    if 'first_name' not in json_data:
+        return None
+    if 'second_name' not in json_data:
+        return None
+
+    json_data['id_'] = _next_id()
+    u = _User(id_, '', '')
+    u.__dict__.update(json_data)
+    data.append(u)
 
 def delete_user(user_id):
-    pass
+    i = 0
+    while i < len(data):
+        if data[i].id_ == user_id:
+            break
+        i += 1
+    if i == len(data): return False
+
+    data = data[:i] + data[i + 1:]
+    return True
